@@ -1,19 +1,20 @@
-import './styles/score-board.css';
 //  Where the score is presented
+import './styles/score-board.css';
+import { FishListPropType } from '../../types';
 
 const incorrectCount = 0;
 const correctCount = 0;
-const answersLeft = ['trout', 'salmon', 'tuna', 'shark'];
 
-export function FunctionalScoreBoard({ fishListProp }) {
-  console.log(fishListProp);
+export function FunctionalScoreBoard({ fishListProp }: FishListPropType) {
+  const fishNames = fishListProp.map((obj) => obj.name);
+
   return (
     <div id='score-board'>
       <div>Incorrect 🔻: {incorrectCount}</div>
       <div id='choices-left'>
-        {answersLeft.map((answer) => (
-          <div key={answer} className='choice'>
-            {answer}
+        {fishNames.map((name) => (
+          <div key={name} className='choice'>
+            {name}
           </div>
         ))}
       </div>

@@ -29,7 +29,7 @@ export function FunctionalApp() {
   return (
     <>
       <FunctionalScoreBoard fishListProp={fistList} />
-      <FunctionalGameBoard />
+      <FunctionalGameBoard fishListProp={fistList} />
       {false && <FunctionalFinalScore />}
     </>
   );

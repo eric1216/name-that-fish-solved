@@ -1,4 +1,5 @@
 import './styles/final-score.css';
+
 const correctCount = 0;
 const totalCount = 0;
 export const FunctionalFinalScore = () => (
