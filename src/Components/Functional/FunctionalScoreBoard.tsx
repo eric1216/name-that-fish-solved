@@ -1,16 +1,19 @@
 //  Where the score is presented
 import './styles/score-board.css';
-import { FishListPropType } from '../../types';
+import { FishListObjTypes, ResultObjTypes } from '../../types';
 
-const incorrectCount = 0;
-const correctCount = 0;
+type FunctionalScoreBoardTypes = {
+  fishList: FishListObjTypes[];
+  results: ResultObjTypes;
+};
 
-export function FunctionalScoreBoard({ fishListProp }: FishListPropType) {
-  const fishNames = fishListProp.map((obj) => obj.name);
+export function FunctionalScoreBoard({ fishList, results }: FunctionalScoreBoardTypes) {
+  const fishNames = fishList.map((obj) => obj.name);
+  const { correct, incorrect } = results;
 
   return (
     <div id='score-board'>
-      <div>Incorrect 🔻: {incorrectCount}</div>
+      <div>Incorrect 🔻: {incorrect}</div>
       <div id='choices-left'>
         {fishNames.map((name) => (
           <div key={name} className='choice'>
@@ -18,7 +21,7 @@ export function FunctionalScoreBoard({ fishListProp }: FishListPropType) {
           </div>
         ))}
       </div>
-      <div>Correct ✅: {correctCount}</div>
+      <div>Correct ✅: {correct}</div>
     </div>
   );
 }

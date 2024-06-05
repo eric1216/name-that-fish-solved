@@ -4,7 +4,12 @@ import { FunctionalFinalScore } from './FunctionalFinalScore';
 import { Images } from '../../assets/Images';
 import { useState } from 'react';
 
-const initialFishes = [
+type InitialFishesTypes = {
+  name: string;
+  url: string;
+};
+
+const initialFishes: InitialFishesTypes[] = [
   {
     name: 'trout',
     url: Images.trout,
@@ -23,14 +28,36 @@ const initialFishes = [
   },
 ];
 
+const initialFishesLength = initialFishes.length;
+let display = false;
+
 export function FunctionalApp() {
-  const [fistList, setFishList] = useState(initialFishes);
+  const [fishList, setFishList] = useState(initialFishes);
+  const [results, setResults] = useState({ correct: 0, incorrect: 0 });
+
+  const setScore = (isAnswerCorrect: boolean) => {
+    const { correct, incorrect } = results;
+    if (isAnswerCorrect) {
+      setResults({ correct: correct + 1, incorrect: incorrect });
+    } else {
+      setResults({ correct: correct, incorrect: incorrect + 1 });
+    }
+  };
+
+  const removeFish = () => {
+    fishList.length > 1 ? setFishList(fishList.slice(1)) : (display = true);
+  };
+
+  const handleSubmit = (setScoreParam: boolean) => {
+    setScore(setScoreParam);
+    removeFish();
+  };
 
   return (
     <>
-      <FunctionalScoreBoard fishListProp={fistList} />
-      <FunctionalGameBoard fishListProp={fistList} />
-      {false && <FunctionalFinalScore />}
+      {display || <FunctionalScoreBoard fishList={fishList} results={results} />}
+      {display || <FunctionalGameBoard fishList={fishList} handleSubmit={handleSubmit} />}
+      {display && <FunctionalFinalScore initialListLength={initialFishesLength} results={results} />}
     </>
   );
 }

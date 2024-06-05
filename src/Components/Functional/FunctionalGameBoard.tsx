@@ -1,11 +1,15 @@
 import './styles/game-board.css';
-import { FishListPropType } from '../../types';
+import { FishListObjTypes } from '../../types';
 import { useState } from 'react';
 
-export function FunctionalGameBoard({ fishListProp }: FishListPropType) {
-  const [currFish, setCurrFish] = useState(0);
+type FunctionalGameBoardTypes = {
+  fishList: FishListObjTypes[];
+  handleSubmit: (arg0: boolean) => void;
+};
+
+export function FunctionalGameBoard({ fishList, handleSubmit }: FunctionalGameBoardTypes) {
   const [answer, setAnswer] = useState('');
-  const { name, url } = fishListProp[currFish];
+  const { name, url } = fishList[0];
 
   return (
     <div id='game-board'>
@@ -16,8 +20,8 @@ export function FunctionalGameBoard({ fishListProp }: FishListPropType) {
         id='fish-guess-form'
         onSubmit={(e) => {
           e.preventDefault();
-          currFish === 3 ? setCurrFish(0) : setCurrFish(currFish + 1);
-          alert(answer);
+          handleSubmit(answer === name);
+          setAnswer('');
         }}>
         <label htmlFor='fish-guess'>What kind of fish is this?</label>
         <input
@@ -27,6 +31,7 @@ export function FunctionalGameBoard({ fishListProp }: FishListPropType) {
           onChange={(e) => {
             setAnswer(e.target.value);
           }}
+          autoComplete='off'
         />
         <input type='submit' />
       </form>
