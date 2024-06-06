@@ -1,17 +1,19 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-const totalCount = 0;
-const correctCount = 0;
+type ClassFinalScoreTypes = {
+  initialListLength: number;
+  correct: number;
+};
 
-export class ClassFinalScore extends Component {
+export class ClassFinalScore extends Component<ClassFinalScoreTypes> {
   render() {
     return (
-      <div id="final-score">
+      <div id='final-score'>
         <h1>Your Final Score Was</h1>
-        <div id="score">
-          <p>{correctCount}</p>
+        <div id='score'>
+          <p>{this.props.correct}</p>
           <hr />
-          <p>{totalCount}</p>
+          <p>{this.props.initialListLength}</p>
         </div>
       </div>
     );

@@ -29,7 +29,7 @@ const initialFishes: InitialFishesTypes[] = [
 ];
 
 const initialFishesLength = initialFishes.length;
-let display = false;
+let visible = false;
 
 export function FunctionalApp() {
   const [fishList, setFishList] = useState(initialFishes);
@@ -45,19 +45,19 @@ export function FunctionalApp() {
   };
 
   const removeFish = () => {
-    fishList.length > 1 ? setFishList(fishList.slice(1)) : (display = true);
+    fishList.length > 1 ? setFishList(fishList.slice(1)) : (visible = true);
   };
 
-  const handleSubmit = (setScoreParam: boolean) => {
-    setScore(setScoreParam);
+  const handleSubmit = (setScoreArg: boolean) => {
+    setScore(setScoreArg);
     removeFish();
   };
 
   return (
     <>
-      {display || <FunctionalScoreBoard fishList={fishList} results={results} />}
-      {display || <FunctionalGameBoard fishList={fishList} handleSubmit={handleSubmit} />}
-      {display && <FunctionalFinalScore initialListLength={initialFishesLength} results={results} />}
+      {visible || <FunctionalScoreBoard fishList={fishList} results={results} />}
+      {visible || <FunctionalGameBoard fishList={fishList} handleSubmit={handleSubmit} />}
+      {visible && <FunctionalFinalScore initialListLength={initialFishesLength} results={results} />}
     </>
   );
 }

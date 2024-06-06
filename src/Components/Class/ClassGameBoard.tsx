@@ -1,38 +1,42 @@
-import { Component } from "react";
-import "./styles/game-board.css";
-import { Images } from "../../assets/Images";
+import { Component } from 'react';
+import { FishListObjTypes } from '../../types';
+import './styles/game-board.css';
 
-const initialFishes = [
-  {
-    name: "trout",
-    url: Images.trout,
-  },
-  {
-    name: "salmon",
-    url: Images.salmon,
-  },
-  {
-    name: "tuna",
-    url: Images.tuna,
-  },
-  {
-    name: "shark",
-    url: Images.shark,
-  },
-];
+type ClassGameBoardTypes = {
+  fishList: FishListObjTypes[];
+  handleSubmit: (arg0: boolean) => void;
+};
 
-export class ClassGameBoard extends Component {
+export class ClassGameBoard extends Component<ClassGameBoardTypes> {
+  state = {
+    answer: '',
+  };
+
   render() {
-    const nextFishToName = initialFishes[0];
+    const { name, url } = this.props.fishList[0];
     return (
-      <div id="game-board">
-        <div id="fish-container">
-          <img src={nextFishToName.url} alt={nextFishToName.name} />
+      <div id='game-board'>
+        <div id='fish-container'>
+          <img src={url} alt={name} />
         </div>
-        <form id="fish-guess-form">
-          <label htmlFor="fish-guess">What kind of fish is this?</label>
-          <input type="text" name="fish-guess" />
-          <input type="submit" />
+        <form
+          id='fish-guess-form'
+          onSubmit={(e) => {
+            e.preventDefault();
+            this.props.handleSubmit(this.state.answer === name);
+            this.setState({ answer: '' });
+          }}>
+          <label htmlFor='fish-guess'>What kind of fish is this?</label>
+          <input
+            type='text'
+            name='fish-guess'
+            value={this.state.answer}
+            onChange={(e) => {
+              this.setState({ answer: e.target.value });
+            }}
+            autoComplete='off'
+          />
+          <input type='submit' />
         </form>
       </div>
     );
