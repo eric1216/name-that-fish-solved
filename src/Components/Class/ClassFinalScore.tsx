@@ -7,13 +7,14 @@ type ClassFinalScoreTypes = {
 
 export class ClassFinalScore extends Component<ClassFinalScoreTypes> {
   render() {
+    const { initialListLength, correct } = this.props;
     return (
       <div id='final-score'>
         <h1>Your Final Score Was</h1>
         <div id='score'>
-          <p>{this.props.correct}</p>
+          <p>{correct}</p>
           <hr />
-          <p>{this.props.initialListLength}</p>
+          <p>{initialListLength}</p>
         </div>
       </div>
     );

@@ -2,14 +2,10 @@ import { Component } from 'react';
 import { ClassScoreBoard } from './ClassScoreBoard';
 import { ClassGameBoard } from './ClassGameBoard';
 import { ClassFinalScore } from './ClassFinalScore';
+import { InitialFishesTypes } from '../../types';
 import { Images } from '../../assets/Images';
 
-type InitialFishTypes = {
-  name: string;
-  url: string;
-};
-
-const initialFishes: InitialFishTypes[] = [
+const initialFishes: InitialFishesTypes[] = [
   {
     name: 'trout',
     url: Images.trout,
@@ -38,45 +34,31 @@ export class ClassApp extends Component {
     correctCount: 0,
   };
 
-  incrementScore = () => {
-    this.setState({ correctCount: this.state.correctCount + 1 });
-  };
-
-  decrementScore = () => {
-    this.setState({ incorrectCount: this.state.incorrectCount + 1 });
-  };
-
   setScore = (isAnswerCorrect: boolean) => {
-    if (isAnswerCorrect) {
-      this.incrementScore();
-    } else {
-      this.decrementScore();
-    }
-  };
-
-  handleSubmit = (setScoreArg: boolean) => {
-    this.setScore(setScoreArg);
-    this.removeFish();
+    const { correctCount, incorrectCount } = this.state;
+    isAnswerCorrect
+      ? this.setState({ correctCount: correctCount + 1 })
+      : this.setState({ incorrectCount: incorrectCount + 1 });
   };
 
   removeFish = () => {
     this.state.fishList.length > 1 ? this.setState({ fishList: this.state.fishList.slice(1) }) : (visible = true);
   };
 
+  processAnswer = (setScoreArg: boolean) => {
+    this.setScore(setScoreArg);
+    this.removeFish();
+  };
+
   render() {
+    const { fishList, incorrectCount, correctCount } = this.state;
     return (
       <>
         <>
-          {visible || (
-            <ClassScoreBoard
-              fishList={this.state.fishList}
-              correct={this.state.correctCount}
-              incorrect={this.state.incorrectCount}
-            />
-          )}
-          {visible || <ClassGameBoard fishList={this.state.fishList} handleSubmit={this.handleSubmit} />}
+          {visible || <ClassScoreBoard fishList={fishList} correct={correctCount} incorrect={incorrectCount} />}
+          {visible || <ClassGameBoard fishList={fishList} processAnswer={this.processAnswer} />}
         </>
-        {visible && <ClassFinalScore initialListLength={fishListLength} correct={this.state.correctCount} />}
+        {visible && <ClassFinalScore initialListLength={fishListLength} correct={correctCount} />}
       </>
     );
   }

@@ -8,19 +8,22 @@ type ClassScoreBoardTypes = {
   incorrect: number;
 };
 export class ClassScoreBoard extends Component<ClassScoreBoardTypes> {
+  renderFishNames = () => {
+    return this.props.fishList.map(({ name }) => (
+      <div key={name} className='choice'>
+        {name}
+      </div>
+    ));
+  };
+
   render() {
-    const fishNames = this.props.fishList.map((obj) => obj.name);
+    const { correct, incorrect } = this.props;
+
     return (
       <div id='score-board'>
-        <div>Incorrect 🔻: {this.props.incorrect}</div>
-        <div id='choices-left'>
-          {fishNames.map((name) => (
-            <div key={name} className='choice'>
-              {name}
-            </div>
-          ))}
-        </div>
-        <div>Correct ✅: {this.props.correct}</div>
+        <div>Incorrect 🔻: {incorrect}</div>
+        <div id='choices-left'>{this.renderFishNames()}</div>
+        <div>Correct ✅: {correct}</div>
       </div>
     );
   }

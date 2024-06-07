@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 type FunctionalGameBoardTypes = {
   fishList: FishListObjTypes[];
-  handleSubmit: (arg0: boolean) => void;
+  processAnswer: (arg0: boolean) => void;
 };
 
-export function FunctionalGameBoard({ fishList, handleSubmit }: FunctionalGameBoardTypes) {
+export function FunctionalGameBoard({ fishList, processAnswer }: FunctionalGameBoardTypes) {
   const [answer, setAnswer] = useState('');
   const { name, url } = fishList[0];
 
@@ -20,7 +20,7 @@ export function FunctionalGameBoard({ fishList, handleSubmit }: FunctionalGameBo
         id='fish-guess-form'
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit(answer === name);
+          processAnswer(answer === name);
           setAnswer('');
         }}>
         <label htmlFor='fish-guess'>What kind of fish is this?</label>
