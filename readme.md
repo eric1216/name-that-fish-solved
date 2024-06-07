@@ -40,7 +40,7 @@ To get this project setup, you should:
 - [x] pass **ALL** typechecks
   - Check by running `npm run typecheck`
 - [x] DON'T USE `any`.... OR ELSE
-- [ ] Keep your types clean and in a logical location
+- [x] Keep your types clean and in a logical location
 - [x] Prop Types for components should be colocated with their components
 - [x] Shared types should live in a file that says `types` somewhere in it's name
   - [x] example: `types.ts` should work fine
