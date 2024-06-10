@@ -4,8 +4,6 @@ import { FunctionalFinalScore } from './FunctionalFinalScore';
 import { useState } from 'react';
 import { initialFishes } from '../../data/fish-data';
 
-const initialFishesLength = initialFishes.length;
-
 export function FunctionalApp() {
   const [results, setResults] = useState({ correct: 0, incorrect: 0 });
 
@@ -27,7 +25,7 @@ export function FunctionalApp() {
           <FunctionalGameBoard fishData={initialFishes[fishIndex]} setScore={setScore} />
         </>
       )}
-      {isGameOver && <FunctionalFinalScore initialListLength={initialFishesLength} results={results} />}
+      {isGameOver && <FunctionalFinalScore initialListLength={initialFishes.length} results={results} />}
     </>
   );
 }
