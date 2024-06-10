@@ -1,28 +1,28 @@
 import './styles/game-board.css';
-import { FishListObjTypes } from '../../types';
-import { useState } from 'react';
+import { InitialFishesTypes } from '../../types';
+import { FormEvent, useState } from 'react';
 
 type FunctionalGameBoardTypes = {
-  fishList: FishListObjTypes[];
-  processAnswer: (arg0: boolean) => void;
+  fishData: InitialFishesTypes;
+  setScore: (arg0: string) => void;
 };
 
-export function FunctionalGameBoard({ fishList, processAnswer }: FunctionalGameBoardTypes) {
+export function FunctionalGameBoard({ fishData, setScore }: FunctionalGameBoardTypes) {
   const [answer, setAnswer] = useState('');
-  const { name, url } = fishList[0];
+  const { name, url } = fishData;
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setScore(answer);
+    setAnswer('');
+  };
 
   return (
     <div id='game-board'>
       <div id='fish-container'>
         <img src={url} alt={name} />
       </div>
-      <form
-        id='fish-guess-form'
-        onSubmit={(e) => {
-          e.preventDefault();
-          processAnswer(answer === name);
-          setAnswer('');
-        }}>
+      <form id='fish-guess-form' onSubmit={handleSubmit}>
         <label htmlFor='fish-guess'>What kind of fish is this?</label>
         <input
           type='text'

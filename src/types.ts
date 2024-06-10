@@ -5,11 +5,6 @@ export type InitialFishesTypes = {
   url: string;
 };
 
-export type FishListObjTypes = {
-  name: string;
-  url: string;
-};
-
 export type ResultObjTypes = {
   correct: number;
   incorrect: number;

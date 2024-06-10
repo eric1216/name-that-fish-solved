@@ -1,9 +1,9 @@
 //  Where the score is presented
 import './styles/score-board.css';
-import { FishListObjTypes, ResultObjTypes } from '../../types';
+import { ResultObjTypes } from '../../types';
 
 type FunctionalScoreBoardTypes = {
-  fishList: FishListObjTypes[];
+  fishList: string[];
   results: ResultObjTypes;
 };
 
@@ -11,9 +11,9 @@ export function FunctionalScoreBoard({ fishList, results }: FunctionalScoreBoard
   const { correct, incorrect } = results;
 
   const renderFishNames = () => {
-    return fishList.map(({ name }) => (
-      <div key={name} className='choice'>
-        {name}
+    return fishList.map((fishName) => (
+      <div key={fishName} className='choice'>
+        {fishName}
       </div>
     ));
   };
