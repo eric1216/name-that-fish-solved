@@ -2,63 +2,47 @@ import { Component } from 'react';
 import { ClassScoreBoard } from './ClassScoreBoard';
 import { ClassGameBoard } from './ClassGameBoard';
 import { ClassFinalScore } from './ClassFinalScore';
-import { InitialFishesTypes } from '../../types';
-import { Images } from '../../assets/Images';
-
-const initialFishes: InitialFishesTypes[] = [
-  {
-    name: 'trout',
-    url: Images.trout,
-  },
-  {
-    name: 'salmon',
-    url: Images.salmon,
-  },
-  {
-    name: 'tuna',
-    url: Images.tuna,
-  },
-  {
-    name: 'shark',
-    url: Images.shark,
-  },
-];
-
-const fishListLength = initialFishes.length;
-let visible = false;
+import { initialFishes } from '../../data/fish-data';
 
 export class ClassApp extends Component {
   state = {
-    fishList: initialFishes,
     incorrectCount: 0,
     correctCount: 0,
   };
 
-  setScore = (isAnswerCorrect: boolean) => {
+  setScore = (answer: string) => {
     const { correctCount, incorrectCount } = this.state;
-    isAnswerCorrect
-      ? this.setState({ correctCount: correctCount + 1 })
-      : this.setState({ incorrectCount: incorrectCount + 1 });
+    const updatedScores = answer === initialFishes[this.fishIndex()].name ? [1, 0] : [0, 1];
+    this.setState({
+      correctCount: correctCount + updatedScores[0],
+      incorrectCount: incorrectCount + updatedScores[1],
+    });
   };
 
-  removeFish = () => {
-    this.state.fishList.length > 1 ? this.setState({ fishList: this.state.fishList.slice(1) }) : (visible = true);
+  fishIndex = () => {
+    return this.state.correctCount + this.state.incorrectCount;
   };
 
-  processAnswer = (setScoreArg: boolean) => {
-    this.setScore(setScoreArg);
-    this.removeFish();
+  isGameOver = () => {
+    return this.fishIndex() === initialFishes.length;
+  };
+
+  fishList = () => {
+    return initialFishes.map((fish) => fish.name).slice(this.fishIndex());
   };
 
   render() {
-    const { fishList, incorrectCount, correctCount } = this.state;
+    const { correctCount, incorrectCount } = this.state;
+    const isGameOver = this.isGameOver();
     return (
       <>
-        <>
-          {visible || <ClassScoreBoard fishList={fishList} correct={correctCount} incorrect={incorrectCount} />}
-          {visible || <ClassGameBoard fishList={fishList} processAnswer={this.processAnswer} />}
-        </>
-        {visible && <ClassFinalScore initialListLength={fishListLength} correct={correctCount} />}
+        {!isGameOver && (
+          <>
+            <ClassScoreBoard fishList={this.fishList()} correct={correctCount} incorrect={incorrectCount} />
+            <ClassGameBoard fishData={initialFishes[this.fishIndex()]} setScore={this.setScore} />
+          </>
+        )}
+        {isGameOver && <ClassFinalScore initialListLength={initialFishes.length} correct={correctCount} />}
       </>
     );
   }

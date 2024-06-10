@@ -1,17 +1,16 @@
 import { Component } from 'react';
-import { FishListObjTypes } from '../../types';
 import './styles/score-board.css';
 
 type ClassScoreBoardTypes = {
-  fishList: FishListObjTypes[];
+  fishList: string[];
   correct: number;
   incorrect: number;
 };
 export class ClassScoreBoard extends Component<ClassScoreBoardTypes> {
   renderFishNames = () => {
-    return this.props.fishList.map(({ name }) => (
-      <div key={name} className='choice'>
-        {name}
+    return this.props.fishList.map((fishName) => (
+      <div key={fishName} className='choice'>
+        {fishName}
       </div>
     ));
   };

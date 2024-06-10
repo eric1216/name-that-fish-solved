@@ -1,10 +1,10 @@
-import { Component } from 'react';
-import { FishListObjTypes } from '../../types';
+import { Component, FormEvent } from 'react';
 import './styles/game-board.css';
+import { InitialFishesTypes } from '../../types';
 
 type ClassGameBoardTypes = {
-  fishList: FishListObjTypes[];
-  processAnswer: (arg0: boolean) => void;
+  fishData: InitialFishesTypes;
+  setScore: (arg0: string) => void;
 };
 
 export class ClassGameBoard extends Component<ClassGameBoardTypes> {
@@ -12,23 +12,23 @@ export class ClassGameBoard extends Component<ClassGameBoardTypes> {
     answer: '',
   };
 
+  handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    this.props.setScore(this.state.answer);
+    this.setState({ answer: '' });
+  };
+
   render() {
-    const { fishList, processAnswer } = this.props;
+    const { fishData } = this.props;
     const { answer } = this.state;
-    const { name, url } = fishList[0];
+    const { name, url } = fishData;
 
     return (
       <div id='game-board'>
         <div id='fish-container'>
           <img src={url} alt={name} />
         </div>
-        <form
-          id='fish-guess-form'
-          onSubmit={(e) => {
-            e.preventDefault();
-            processAnswer(answer === name);
-            this.setState({ answer: '' });
-          }}>
+        <form id='fish-guess-form' onSubmit={this.handleSubmit}>
           <label htmlFor='fish-guess'>What kind of fish is this?</label>
           <input
             type='text'
